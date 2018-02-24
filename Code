@@ -1,0 +1,73 @@
+#define trigPin 12
+#define echoPin 13
+//#define led 11
+#define led2 10
+#define a1 7
+#define a2 8
+#define buzz 11
+void setup() {
+  Serial.begin (9600);
+ pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  
+  pinMode(led2, OUTPUT);
+  pinMode(7,OUTPUT);
+  pinMode(8,OUTPUT);
+  pinMode(buzz,OUTPUT);
+}
+
+
+void loop() {
+  long duration, distance;
+  digitalWrite(trigPin, LOW);  // Added this line
+  delayMicroseconds(2); // Added this line
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(1000); //- Removed this line
+  //delayMicroseconds(1000); // Added this line
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration/2) / 29.1;
+  if (distance < 15) {  // This is where the LED On/Off happens
+    //digitalWrite(led,HIGH); // When the Red condition is met, the Green LED should turn off*/
+  digitalWrite(led2,HIGH);
+
+  for(int i=0;i<3;i++)
+  {
+  delay(500);
+  tone(buzz,500);
+  delay(200);
+  noTone(buzz);
+  delay(200);
+  }
+  
+ Serial.println(distance);
+  digitalWrite(a1,HIGH);
+
+  digitalWrite(a2,LOW);
+  delay(1500);
+  digitalWrite(a1,LOW);
+  digitalWrite(a2,LOW);
+  delay(4000);
+  digitalWrite(a1,LOW);
+  digitalWrite(a2,HIGH);
+  delay(1500);
+  digitalWrite(a1,LOW);
+  digitalWrite(a2,LOW);
+}
+  else {
+  //  digitalWrite(led,LOW);
+    digitalWrite(led2,LOW);
+    delay(1000);
+    //CHANGE
+    digitalWrite(a1,LOW);
+    digitalWrite(a2,LOW);
+   }
+  if (distance >= 200 || distance <= 0){
+    Serial.println("Out of range");
+  }
+  else {
+    Serial.print(distance);
+    Serial.println(" cm");
+  }
+  delay(50);
+  }
